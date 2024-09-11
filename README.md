@@ -36,6 +36,6 @@ MILILX OS is a Unix-based operating system that runs on top of MS-DOS, designed 
    ```
 3. **Burn the out `.img` file to a floppy**
 4. **Flow the installation instructions**
-#### License
+## License
 
 This project uses [Gnu GPL 3.0](https://www.gnu.org/licenses/gpl-3.0.en.html#license-text)
