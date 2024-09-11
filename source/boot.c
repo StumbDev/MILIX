@@ -1,6 +1,6 @@
-#include <dos.h>    // For DOS interrupt and delay
-#include <conio.h>  // For text output functions
-#include <time.h>   // For timing functions
+#include "dos.h"    // For DOS interrupt and delay
+#include "conio.h"  // For text output functions
+#include "time.h"   // For timing functions
 
 // Video memory location for text mode
 #define VIDEO_MEMORY 0xB800

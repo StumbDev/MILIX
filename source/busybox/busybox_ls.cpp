@@ -1,4 +1,4 @@
-#include <dos.h> // For DOS interrupts
+#include "dos.h" // For DOS interrupts
 
 void ls_command() {
     // DOS Find First File interrupt (int 0x21, AH=0x4E)

@@ -1,5 +1,9 @@
-#include <dos.h>  // MS-DOS specific headers
-#include <stdio.h> 
+#include "dos.h"  // MS-DOS specific headers
+#include "stdio.h" 
+
+void dos_exit(void);
+void dos_write(void);
+int wait_for_syscall(void);
 
 void syscall_handler(int syscall_id) {
     switch (syscall_id) {
