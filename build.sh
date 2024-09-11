@@ -1,26 +1,24 @@
 #!/bin/bash
 
-# Directories
-SRC_DIR=source
-BUILD_DIR=build
-BIN_DIR=$BUILD_DIR/bin
+# Create output directory if it doesn't exist
+mkdir -p ./build/bin
 
-# Create directories
-mkdir -p $BIN_DIR
+# Assemble the kernel
+nasm -f bin ./src/kernel.asm -o ./build/bin/kernel.com
 
-# Compile source files
-echo "Compiling source files..."
-gcc -m16 -O2 -Iinclude -c $SRC_DIR/kernel.c -o $BIN_DIR/kernel.o
-# Repeat for other source files as needed
+# Assemble the busybox
+nasm -f bin ./src/busybox.asm -o ./build/bin/busybox.com
 
-# Link object files
-echo "Linking object files..."
-gcc -m16 -nostartfiles -nostdlib -o $BIN_DIR/kernel $BIN_DIR/kernel.o
+# Assemble the editor
+nasm -f bin ./src/editor.asm -o ./build/bin/editor.com
 
-# Create disk image
-echo "Creating disk image..."
-dd if=/dev/zero of=disk.img bs=512 count=2880
-mformat -i disk.img ::
-mcopy -i disk.img $BIN_DIR/* ::
+# Assemble the shell
+nasm -f bin ./src/shell.asm -o ./build/bin/shell.com
+
+# Assemble the boot screen
+nasm -f bin ./src/bootscreen.asm -o ./build/bin/bootscreen.com
+
+# Assemble the bootstrap loader
+nasm -f bin ./src/milix.asm -o ./build/bin/milix.com
 
 echo "Build completed successfully."
