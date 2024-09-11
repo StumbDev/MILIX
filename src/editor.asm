@@ -1,66 +1,54 @@
-; editor.asm
-org 0x100
+; Simple Text Editor - Editor.asm
 
-; Print message
-mov ah, 0x0E
-mov al, 'E'
-int 0x10
+org 100h  ; Origin for .COM file
 
-mov al, 'd'
-int 0x10
+section .data
+    filename db 'test.txt', 0
+    msg db 'Press any key to exit...', 0
+    buffer db 1024 dup(0)  ; Buffer to hold file contents
 
-mov al, 'i'
-int 0x10
+section .bss
+    bytes_read resb 2  ; Reserve space for number of bytes read
 
-mov al, 't'
-int 0x10
+section .text
+start:
+    ; Open file
+    mov ah, 0x0F        ; DOS function: Open file
+    lea dx, [filename]  ; File name
+    mov al, 0           ; Read-only mode
+    int 21h             ; DOS interrupt
+    jc open_error       ; Jump if carry flag is set (error)
 
-mov al, 'o'
-int 0x10
+    ; Read file
+    mov ah, 0x0A        ; DOS function: Read file
+    mov bx, ax          ; File handle
+    lea dx, [buffer]    ; Buffer to store file contents
+    mov cx, 1024        ; Number of bytes to read
+    int 21h             ; DOS interrupt
+    jc read_error       ; Jump if carry flag is set (error)
 
-mov al, 'r'
-int 0x10
+    ; Print file contents
+    mov ah, 0x09        ; DOS function: Print string
+    lea dx, [buffer]    ; Address of buffer
+    int 21h             ; DOS interrupt
 
-mov al, ' '
-int 0x10
+    ; Exit
+    mov ah, 0x4C        ; DOS function: Terminate program
+    int 21h             ; DOS interrupt
 
-mov al, 'E'
-int 0x10
+open_error:
+    ; Handle file open error
+    mov ah, 0x09
+    lea dx, [msg]
+    int 21h
+    jmp exit
 
-mov al, 'd'
-int 0x10
-
-mov al, 'i'
-int 0x10
-
-mov al, 't'
-int 0x10
-
-mov al, 'o'
-int 0x10
-
-mov al, 'r'
-int 0x10
-
-mov al, 0x0D          ; Carriage return
-int 0x10
-
-mov al, 0x0A          ; Line feed
-int 0x10
-
-; Read and echo input
-read_loop:
-    mov ah, 0x00     ; Read character
-    int 0x16         ; BIOS keyboard interrupt
-    mov ah, 0x0E     ; Print character
-    int 0x10         ; BIOS video interrupt
-    cmp al, 0x1B     ; ESC key to exit
-    je exit
-    jmp read_loop
+read_error:
+    ; Handle file read error
+    mov ah, 0x09
+    lea dx, [msg]
+    int 21h
 
 exit:
-    mov ah, 0x4C     ; Terminate program
-    int 0x21
-
-times 510 - ($ - $$) db 0
-dw 0xAA55
+    mov ah, 0x4C        ; DOS function: Terminate program
+    int 21h

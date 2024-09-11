@@ -18,6 +18,10 @@ nasm -f bin ./src/shell.asm -o ./build/bin/shell.com
 # Assemble the boot screen
 nasm -f bin ./src/bootscreen.asm -o ./build/bin/bootscreen.com
 
+# Assemble the kernel Manager
+
+nasm -f bin ./src/KernelManager.asm -o ./build/bin/kernelmgr.com
+
 # Assemble the bootstrap loader
 nasm -f bin ./src/milix.asm -o ./build/bin/milix.com
 
