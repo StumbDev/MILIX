@@ -10,5 +10,5 @@ cp ./build/bin/editor.com /mnt
 cp ./build/bin/shell.com /mnt
 cp ./build/bin/bootscreen.com /mnt
 cp ./build/bin/milix.com /mnt
-cp ./build/bin/install.bat /mnt
+cp ./installer.bat /mnt
 sudo umount /mnt
